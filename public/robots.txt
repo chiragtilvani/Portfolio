@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://chiragtilwani.dev/sitemap.xml
