@@ -68,12 +68,18 @@ export function MiniChart() {
         viewBox={`0 0 ${W} ${H}`}
         className="mt-3 w-full flex-1"
         preserveAspectRatio="none"
-        onMouseMove={(e) => {
+        onPointerMove={(e) => {
           const r = e.currentTarget.getBoundingClientRect()
           const x = ((e.clientX - r.left) / r.width) * W
           setHover(Math.max(0, Math.min(N - 1, Math.round(x / step))))
         }}
-        onMouseLeave={() => setHover(null)}
+        onPointerDown={(e) => {
+          const r = e.currentTarget.getBoundingClientRect()
+          const x = ((e.clientX - r.left) / r.width) * W
+          setHover(Math.max(0, Math.min(N - 1, Math.round(x / step))))
+        }}
+        onPointerLeave={() => setHover(null)}
+        style={{ touchAction: 'pan-y' }}
         role="img"
         aria-label="Demo line chart"
       >

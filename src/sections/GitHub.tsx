@@ -119,7 +119,7 @@ export function GitHub() {
                       style={{ gridTemplateColumns: 'repeat(52, minmax(0, 1fr))' }}
                       role="img"
                       aria-label="Contribution calendar (demo data)"
-                      onMouseLeave={() => setTip(null)}
+                      onPointerLeave={() => setTip(null)}
                     >
                       {weeks.map((week, w) => (
                         <div key={w} className="grid gap-[3px]" style={{ gridTemplateRows: 'repeat(7, 1fr)' }}>
@@ -130,7 +130,8 @@ export function GitHub() {
                               whileInView={{ opacity: 1, scale: 1 }}
                               viewport={{ once: true }}
                               transition={{ delay: Math.min(0.9, w * 0.012 + d * 0.004), duration: 0.35 }}
-                              onMouseEnter={() => setTip({ w, d, v })}
+                              onPointerEnter={() => setTip({ w, d, v })}
+                              onClick={() => setTip({ w, d, v })}
                               className={cn('aspect-square rounded-[2px] transition-colors hover:ring-1 hover:ring-white/50', LEVELS[v])}
                             />
                           ))}
@@ -143,7 +144,7 @@ export function GitHub() {
 
               <div className="mt-4 flex items-center justify-between">
                 <span className="h-4 font-mono text-[10px] text-muted">
-                  {tip ? `${tip.v === 0 ? 'No' : tip.v * 2} contributions · week ${tip.w + 1}, day ${tip.d + 1}` : 'Hover a cell'}
+                  {tip ? `${tip.v === 0 ? 'No' : tip.v * 2} contributions · week ${tip.w + 1}, day ${tip.d + 1}` : 'Hover or tap a cell'}
                 </span>
                 <span className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.15em] text-muted-2">
                   Less

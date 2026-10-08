@@ -70,7 +70,7 @@ export function SkillConstellation({ selected, onSelect, filter }: Props) {
       className="h-auto w-full overflow-visible select-none"
       role="group"
       aria-label="Technology constellation. Use Tab to move between technologies."
-      onMouseLeave={() => setHover(null)}
+      onPointerLeave={() => setHover(null)}
     >
       <defs>
         <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
@@ -161,7 +161,7 @@ export function SkillConstellation({ selected, onSelect, filter }: Props) {
             aria-pressed={selected?.name === n.name}
             data-cursor="hover"
             className={cn('cursor-pointer outline-none transition-opacity duration-500 focus-visible:[&>circle]:stroke-white', dim && 'opacity-25')}
-            onMouseEnter={() => setHover(n)}
+            onPointerEnter={(e) => e.pointerType === 'mouse' && setHover(n)}
             onFocus={() => setHover(n)}
             onBlur={() => setHover(null)}
             onClick={() => onSelect(selected?.name === n.name ? null : n)}

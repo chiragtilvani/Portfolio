@@ -224,9 +224,11 @@ export function DigitalCore({ particleCount, pixelRatio, reducedMotion, isMobile
         {/* faceted dark core */}
         <mesh ref={core} geometry={coreGeo} castShadow={false} receiveShadow={false}>
           <meshPhysicalMaterial
-            color="#0b0f14"
-            metalness={0.9}
-            roughness={0.22}
+            color="#121a24"
+            emissive="#071320"
+            emissiveIntensity={0.9}
+            metalness={0.55}
+            roughness={0.3}
             clearcoat={1}
             clearcoatRoughness={0.12}
             envMapIntensity={1.4}
@@ -286,9 +288,11 @@ export function DigitalCore({ particleCount, pixelRatio, reducedMotion, isMobile
             <group key={i} position={p.position} rotation={p.rotation}>
               <mesh geometry={panelGeos[i]}>
                 <meshPhysicalMaterial
-                  color="#0a0d12"
-                  metalness={0.6}
-                  roughness={0.3}
+                  color="#0e131b"
+                  emissive="#060a10"
+                  emissiveIntensity={0.8}
+                  metalness={0.3}
+                  roughness={0.35}
                   clearcoat={1}
                   transparent
                   opacity={0.85}

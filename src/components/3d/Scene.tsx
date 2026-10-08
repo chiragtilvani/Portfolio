@@ -30,7 +30,7 @@ function OpacityDriver({ el, isMobile }: { el: React.RefObject<HTMLDivElement | 
     // On small screens the object sits behind the copy, so keep it quieter
     // everywhere except the hero and the contact finale.
     const focus = story.section === 'hero' || story.section === 'contact'
-    const target = story.opacity * (isMobile ? (focus ? 0.85 : 0.45) : 1)
+    const target = story.opacity * (isMobile ? (focus ? 0.85 : 0.6) : 1)
     current.current += (target - current.current) * Math.min(1, delta * 3)
     el.current.style.opacity = current.current.toFixed(3)
   })
@@ -67,8 +67,9 @@ export function Scene({ caps }: SceneProps) {
         gl={{
           antialias: caps.quality !== 'low',
           alpha: true,
-          powerPreference: 'high-performance',
+          powerPreference: caps.isMobile ? 'default' : 'high-performance',
           stencil: false,
+          failIfMajorPerformanceCaveat: false,
         }}
         onCreated={({ gl }) => {
           gl.setClearColor(0x000000, 0)
@@ -87,16 +88,22 @@ export function Scene({ caps }: SceneProps) {
           }}
         />
         <Suspense fallback={null}>
-          <ambientLight intensity={0.25} />
-          <directionalLight position={[4, 6, 5]} intensity={1.6} color="#ffffff" />
-          <pointLight position={[3, 2.5, 3]} intensity={28} color="#4fc3ff" distance={14} decay={2} />
-          <pointLight position={[-4, -2, 2]} intensity={16} color="#8b7cf6" distance={14} decay={2} />
-          <Environment resolution={caps.quality === 'low' ? 64 : 128} frames={1}>
-            <Lightformer intensity={2} rotation-x={Math.PI / 2} position={[0, 5, -9]} scale={[10, 10, 1]} />
-            <Lightformer intensity={1.2} rotation-y={Math.PI / 2} position={[-5, 1, -1]} scale={[10, 2, 1]} color="#8b7cf6" />
-            <Lightformer intensity={1.5} rotation-y={-Math.PI / 2} position={[10, 1, 0]} scale={[20, 2, 1]} color="#4fc3ff" />
-            <Lightformer intensity={0.6} position={[0, -5, 0]} rotation-x={-Math.PI / 2} scale={[10, 10, 1]} />
-          </Environment>
+          {/* Direct lights carry the look on their own, so the object stays
+              readable even if a mobile GPU cannot render the environment map. */}
+          <ambientLight intensity={0.35} />
+          <hemisphereLight args={['#9fd9ff', '#1a1030', 0.7]} />
+          <directionalLight position={[4, 6, 5]} intensity={2.2} color="#ffffff" />
+          <directionalLight position={[-5, -3, 4]} intensity={0.9} color="#8b7cf6" />
+          <pointLight position={[3, 2.5, 3]} intensity={30} color="#4fc3ff" distance={14} decay={2} />
+          <pointLight position={[-4, -2, 2]} intensity={18} color="#8b7cf6" distance={14} decay={2} />
+          {caps.quality !== 'low' && (
+            <Environment resolution={caps.isMobile ? 64 : 128} frames={1}>
+              <Lightformer intensity={2} rotation-x={Math.PI / 2} position={[0, 5, -9]} scale={[10, 10, 1]} />
+              <Lightformer intensity={1.2} rotation-y={Math.PI / 2} position={[-5, 1, -1]} scale={[10, 2, 1]} color="#8b7cf6" />
+              <Lightformer intensity={1.5} rotation-y={-Math.PI / 2} position={[10, 1, 0]} scale={[20, 2, 1]} color="#4fc3ff" />
+              <Lightformer intensity={0.6} position={[0, -5, 0]} rotation-x={-Math.PI / 2} scale={[10, 10, 1]} />
+            </Environment>
+          )}
           <DigitalCore
             particleCount={particleCount}
             pixelRatio={dpr}

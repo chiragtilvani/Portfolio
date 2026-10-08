@@ -5,6 +5,7 @@ import { CustomCursor } from '@/components/CustomCursor'
 import { Footer } from '@/components/Footer'
 import { EasterEgg } from '@/components/EasterEgg'
 import { Fallback2D } from '@/components/3d/Fallback2D'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { Marquee } from '@/components/ui/Marquee'
 import { coreStack } from '@/data/skills'
 import { Hero } from '@/sections/Hero'
@@ -38,9 +39,11 @@ export default function App() {
 
       {/* persistent 3D layer */}
       {caps.webgl ? (
-        <Suspense fallback={null}>
-          <Scene caps={caps} />
-        </Suspense>
+        <ErrorBoundary fallback={<Fallback2D />}>
+          <Suspense fallback={null}>
+            <Scene caps={caps} />
+          </Suspense>
+        </ErrorBoundary>
       ) : (
         <Fallback2D />
       )}

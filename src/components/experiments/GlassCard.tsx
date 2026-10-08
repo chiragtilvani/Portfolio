@@ -25,7 +25,13 @@ export function GlassCard() {
   }
 
   return (
-    <div className="flex h-full w-full items-center justify-center [perspective:900px]" onPointerMove={onMove} onPointerLeave={onLeave}>
+    <div
+      className="flex h-full w-full items-center justify-center [perspective:900px] [touch-action:none]"
+      onPointerMove={onMove}
+      onPointerDown={onMove}
+      onPointerLeave={onLeave}
+      onPointerUp={onLeave}
+    >
       <div
         ref={card}
         className="relative h-44 w-72 rounded-2xl border border-white/15 bg-white/[0.04] p-5 shadow-[0_30px_60px_-30px_rgba(79,195,255,0.35)] backdrop-blur-xl transition-transform duration-300 ease-out [transform-style:preserve-3d]"

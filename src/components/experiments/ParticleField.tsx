@@ -58,7 +58,9 @@ export function ParticleField() {
       mouse.y = -9999
     }
     wrapper.addEventListener('pointermove', onMove)
+    wrapper.addEventListener('pointerdown', onMove)
     wrapper.addEventListener('pointerleave', onLeave)
+    wrapper.addEventListener('pointerup', onLeave)
 
     let raf = 0
     const draw = () => {
@@ -115,15 +117,17 @@ export function ParticleField() {
       cancelAnimationFrame(raf)
       ro.disconnect()
       wrapper.removeEventListener('pointermove', onMove)
+      wrapper.removeEventListener('pointerdown', onMove)
       wrapper.removeEventListener('pointerleave', onLeave)
+      wrapper.removeEventListener('pointerup', onLeave)
     }
   }, [inView, wrap])
 
   return (
-    <div ref={wrap} className="relative h-full w-full" data-cursor="hidden">
+    <div ref={wrap} className="relative h-full w-full [touch-action:pan-y]" data-cursor="hidden">
       <canvas ref={canvasRef} className="block h-full w-full" aria-hidden />
       <span className="pointer-events-none absolute bottom-3 left-4 font-mono text-[9.5px] uppercase tracking-[0.2em] text-muted-2">
-        move your cursor
+        move your cursor · or touch
       </span>
     </div>
   )

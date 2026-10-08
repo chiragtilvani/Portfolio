@@ -31,14 +31,20 @@ export function Skills() {
           </Reveal>
         </div>
 
-        {/* Desktop constellation */}
-        <div className="mt-14 hidden grid-cols-12 gap-8 md:grid">
+        {/* Constellation: full graph on every screen size. On phones it scrolls
+            horizontally so nodes stay tappable at a readable size. */}
+        <div className="mt-12 grid grid-cols-12 gap-6 md:mt-14 md:gap-8">
           <Reveal className="col-span-12 lg:col-span-8" delay={0.1} y={30}>
-            <div className="relative rounded-3xl border border-white/[0.06] bg-white/[0.012] p-4 lg:p-8">
-              <SkillConstellation selected={selected} onSelect={setSelected} filter={filter} />
+            <div className="relative rounded-3xl border border-white/[0.06] bg-white/[0.012] p-3 md:p-4 lg:p-8">
+              <div className="overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ touchAction: 'pan-x pan-y' }}>
+                <div className="min-w-[720px] md:min-w-0">
+                  <SkillConstellation selected={selected} onSelect={setSelected} filter={filter} />
+                </div>
+              </div>
               <div className="mt-2 flex items-center justify-between px-2">
                 <TechLabel>{skills.length} technologies · 5 systems</TechLabel>
-                <TechLabel>fig. 02 — constellation</TechLabel>
+                <TechLabel className="md:hidden">swipe · tap a node</TechLabel>
+                <TechLabel className="hidden md:inline">fig. 02 — constellation</TechLabel>
               </div>
             </div>
           </Reveal>
@@ -46,13 +52,14 @@ export function Skills() {
             <div className="lg:sticky lg:top-28">
               <SkillDetail skill={selected} />
               <p className="mt-4 px-1 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-2">
-                Click a node to pin it · Tab to navigate
+                <span className="hidden md:inline">Click a node to pin it · Tab to navigate</span>
+                <span className="md:hidden">Tap a node or a chip below</span>
               </p>
             </div>
           </Reveal>
         </div>
 
-        {/* Mobile: grouped chips */}
+        {/* Mobile: grouped chips (quick access without scrolling the graph) */}
         <div className="mt-12 space-y-8 md:hidden">
           {skillCategories
             .filter((c) => !filter || c.id === filter)
@@ -84,7 +91,6 @@ export function Skills() {
                 </div>
               </Reveal>
             ))}
-          <SkillDetail skill={selected} />
         </div>
       </div>
     </section>
